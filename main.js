@@ -1,7 +1,7 @@
 /**
  * @TODO get a reference to the Firebase Database object
  */
-
+  const database = firebase.database().ref()
 /**
  * @TODO get const references to the following elements:
  *      - div with id #all-messages
@@ -10,8 +10,14 @@
  *      - button with id #send-btn and the updateDB
  *        function as an onclick event handler
  */
+  const allMessages = document.getElementById('all-messages');
+  // const usernameInput = document.getElementById('username');
+  const messageInput = document.getElementById('message');
+  const sendBtn = document.getElementById('send-btn');
+  const catMessages = document.getElementById('cat-messages')
 
-/**
+  sendBtn.onclick = updateDB;
+  /**
  * @TODO create a function called updateDB which takes
  * one parameter, the event, that:
  *      - gets the values of the input elements and stores
@@ -22,11 +28,25 @@
  *      - resets the value of #message input element
  */
 
+
 function updateDB(event) {
   // Prevent default refresh
+  event.preventDefault();
   // Create data object
+  let data = {
+    // USERNAME: usernameInput.value,
+    MESSAGE: messageInput.value,
+  };
+  
+  console.log(data);
+  
   // GET *PUSH* PUT DELETE
   // Write to our database
+  database.push(data);
+
+  messageInput.value = '';
+
+  // addCatMessageToBoard();
 }
 
 /**
@@ -34,6 +54,8 @@ function updateDB(event) {
  * handler for the "child_added" event on the database
  * object
  */
+database.on('child_added', addMessageToBoard);
+database.on('child_added', addCatMessageToBoard);
 
 /**
  * @TODO create a function called addMessageToBoard that
@@ -46,7 +68,17 @@ function updateDB(event) {
  *
  */
 
-function addMessageToBoard(rowData) {}
+function addMessageToBoard(rowData) {
+  console.log(rowData);
+  let data = rowData.val();
+  let singleMessage = makeSingleMessageHTML(data.MESSAGE)
+  allMessages.append(singleMessage);
+}
+function addCatMessageToBoard(){
+  let singleCatMessage = makeCatMessageHTML()
+  allMessages.append(singleCatMessage)
+  return singleCatMessage
+}
 
 /**
  * @TODO create a function called makeSingleMessageHTML which takes
@@ -66,13 +98,40 @@ function addMessageToBoard(rowData) {}
  *      - returns the parent div
  */
 
-function makeSingleMessageHTML(usernameTxt, messageTxt) {
+function makeSingleMessageHTML(messageTxt) {
   // Create Parent Div
+  let parentDiv = document.createElement('div');
   // Add Class name .single-message
+  parentDiv.setAttribute('class', 'single-message')
   // Create Username P Tag
-  // Append username
+  // let usernameP = document.createElement('p');
+  // // Append username
+  // usernameP.classList.add('single-message-username');
+  // usernameP.innerHTML = usernameTxt + ':';
+  // parentDiv.append(usernameP);
   // Create message P Tag
+  let messageP = document.createElement('p');
+  messageP.innerHTML = messageTxt;
+  
+  parentDiv.append(messageP);
   // Return Parent Div
+  return parentDiv;
+}
+function makeCatMessageHTML(){
+  let parentDiv = document.createElement('div');
+  parentDiv.setAttribute('class', 'cat-message');
+  let catMessage = document.createElement('p');
+  let num=Math.floor(Math.random()*5)
+  let str = "🐈 |Meow"
+  for(let i=0; i<=num; i++){
+    str = str+" meow";
+  }
+  adds=['.','!','?']
+  let rand=Math.floor(Math.random()*adds.length)
+  str=str+adds[rand]
+  catMessage.innerHTML = str;
+  parentDiv.append(catMessage);
+  return parentDiv;
 }
 
 /**
@@ -82,3 +141,12 @@ function makeSingleMessageHTML(usernameTxt, messageTxt) {
  *
  * @BONUS use an arrow function
  */
+
+let formElem = document.querySelector('form');
+formElem.onkeyup = (event) => {
+  //check if the key released is the enter key
+  if(event.keyCode === 13){
+    updateDB(event);
+    event.preventDefault
+  }
+}

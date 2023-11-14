@@ -21,9 +21,10 @@
 </head>
 <body>
     <div id="chatbox-container">
-        <h1 id="title">Fire Message 2.0</h1>        
+        <h1 id="title">Cat GPT</h1>        
 
         <!-- @NOTE this is where we'll append messages -->
+        <div id="every-message">
         <div id="all-messages">
             <!-- @NOTE sample message -->
             <!-- <div class="single-message">
@@ -37,21 +38,24 @@
                 </p>
             </div> -->
         </div>
+        <div id="cat-messages">
 
+        </div>
+        </div>
         <div id="typing-container">
             <form>
                 <!-- @NOTE this input has an id #username -->
-                <div class="input-container">
+                <!-- <div class="input-container">
                     <label>Username:</label>
                     <input
                         type="text"
                         id="username"
                     />
-                </div>
+                </div> -->
                 
                 <!-- @NOTE this input has an id #message -->
                 <div class="input-container">
-                    <label>Message:</label>
+                    <!-- <label> </label> -->
                     <input
                         type="text"
                         id="message"
@@ -59,7 +63,9 @@
                 </div>
             </form>
 
-            <button id="send-btn">Send</button>
+            <button id="send-btn">
+                <img id="plane_img" src="paper_plane.png">
+            </button>
         </div>
     </div>
 </body>
