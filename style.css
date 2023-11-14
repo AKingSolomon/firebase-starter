@@ -72,6 +72,9 @@ body {
     /* visiblity */
     overflow-wrap: normal;
     overflow-y: auto;
+
+    display: flex;
+    flex-direction: column-reverse;
 }
 /* #cat-messages { */
     /* size and colors */
@@ -112,7 +115,7 @@ form {
 
     /* flexbox */
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: space-evenly;
 }
 
